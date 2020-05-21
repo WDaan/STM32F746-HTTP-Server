@@ -36,10 +36,10 @@ t             <div class="card">
 t                 <h5 class="card-header">Thermostaat</h5>
 t                 <div class="card-body text-center">
 t                   <h5 class="card-title">Temperatuur: 
-t                       <span id="temp">X</span> &#8451;
+c y                       <span id="temp">%d</span> &#8451;
 t                   </h5>
 t                   <h5 class="card-title">Ventilator status: 
-t                       <button class="btn btn-success disabled" style="padding: 10px; cursor:default;" id="status"> </span>
+t                       <button class="btn btn-primary disabled" style="padding: 10px; cursor:default;" id="status"></button>
 t                   </h5>
 t                   <div class="mx-auto" style="max-width: 200px; margin-top: 50px;">
 t                     <form action="index.cgi" method="POST" name="wantedTemperature">

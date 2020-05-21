@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include "main.h"
+#include "sensor.h"
 
 #include "rl_net.h"                     // Keil.MDK-Pro::Network:CORE
 
@@ -24,6 +25,10 @@
 extern ARM_DRIVER_I2C            Driver_I2C2;
 static ARM_DRIVER_I2C *I2Cdrv = &Driver_I2C2;
 
+static volatile uint32_t I2C_Event;
+
+#define TC74_ADRR 0x48
+
 // Main stack size must be multiple of 8 Bytes
 #define APP_MAIN_STK_SZ (1024U)
 uint64_t app_main_stk[APP_MAIN_STK_SZ / 8];
@@ -35,6 +40,7 @@ const osThreadAttr_t app_main_attr = {
 extern GLCD_FONT GLCD_Font_6x8;
 extern GLCD_FONT GLCD_Font_16x24;
 
+extern uint8_t Temperatuur;
 extern uint16_t AD_in          (uint32_t ch);
 extern uint8_t  get_button     (void);
 extern void     netDHCP_Notify (uint32_t if_num, uint8_t option, const uint8_t *val, uint32_t len);
@@ -65,22 +71,6 @@ uint16_t AD_in (uint32_t ch) {
   (void)ch;
 
   return (0);
-}
-
-/* Read Temperature */
-uint8_t get_temp(uint8_t *val){
-	uint8_t data = 0;
-	I2Cdrv->MasterTransmit(0x48, &data, 1, true);
-  while (I2Cdrv->GetStatus().busy);
-  if (I2Cdrv->GetDataCount() != 1) return -1;
-  I2Cdrv->MasterReceive(0x48, val, 1, false);
-  while (I2Cdrv->GetStatus().busy);
-  if (I2Cdrv->GetDataCount() != 1) return -1;
-}
-
-/* get fanstate */
-uint8_t get_fanstate(){
-	return 0;
 }
 
 /* Read digital inputs */
@@ -126,8 +116,9 @@ static __NO_RETURN void Display (void *arg) {
                    netIF_OptionIP6_LinkLocalAddress, ip_addr, sizeof(ip_addr));
 
   netIP_ntoa(NET_ADDR_IP6, ip_addr, ip_ascii, sizeof(ip_ascii));
-
-
+	
+	TC74_Initialize();
+		
 
   while(1) {
     /* Wait for signal from DHCP */
@@ -142,14 +133,9 @@ static __NO_RETURN void Display (void *arg) {
     sprintf (buf, "IP4:%-16s",ip_ascii);
     GLCD_DrawString (x*16U, 2U*24U, buf);
 
-    /* Display user text lines */
-		sprintf (buf, "Fan status: %s", get_fanstate() ? "ON" : "OFF");
-    GLCD_DrawString (x*16U, 7U*24U, buf);
+	
+		display_data();
 		
-		uint8_t temp;
-		get_temp(&temp);
-    sprintf (buf, "Temperature: %d C", temp);
-    GLCD_DrawString (x*16U, 8U*24U, buf);
   }
 }
 
@@ -181,6 +167,9 @@ static __NO_RETURN void BlinkLed (void *arg) {
  *---------------------------------------------------------------------------*/
 __NO_RETURN void app_main (void *arg) {
   (void)arg;
+	
+  //init i2C
+	TC74_Initialize();
 
   LED_Initialize();
   Buttons_Initialize();

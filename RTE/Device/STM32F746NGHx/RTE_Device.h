@@ -975,10 +975,10 @@
 
 // <e> I2C1 (Inter-integrated Circuit Interface 1) [Driver_I2C1]
 // <i> Configuration settings for Driver_I2C1 in component ::CMSIS Driver:I2C
-#define RTE_I2C1                        0
+#define RTE_I2C1                        1
 
 //   <o> I2C1_SCL Pin <0=>PB6 <1=>PB8
-#define RTE_I2C1_SCL_PORT_ID            0
+#define RTE_I2C1_SCL_PORT_ID            1
 #if    (RTE_I2C1_SCL_PORT_ID == 0)
 #define RTE_I2C1_SCL_PORT               GPIOB
 #define RTE_I2C1_SCL_BIT                6
@@ -990,7 +990,7 @@
 #endif
 
 //   <o> I2C1_SDA Pin <0=>PB7 <1=>PB9
-#define RTE_I2C1_SDA_PORT_ID            0
+#define RTE_I2C1_SDA_PORT_ID            1
 #if    (RTE_I2C1_SDA_PORT_ID == 0)
 #define RTE_I2C1_SDA_PORT               GPIOB
 #define RTE_I2C1_SDA_BIT                7
@@ -1038,7 +1038,7 @@
 
 // <e> I2C2 (Inter-integrated Circuit Interface 2) [Driver_I2C2]
 // <i> Configuration settings for Driver_I2C2 in component ::CMSIS Driver:I2C
-#define RTE_I2C2                        1
+#define RTE_I2C2                        0
 
 //   <o> I2C2_SCL Pin <0=>PF1 <1=>PH4 <2=>PB10
 #define RTE_I2C2_SCL_PORT_ID            0
@@ -1173,7 +1173,7 @@
 #define RTE_I2C4                        0
 
 //   <o> I2C4_SCL Pin <0=>PD12 <1=>PF14 <2=>PH11 <3=>PB6 <4=>PB8
-#define RTE_I2C4_SCL_PORT_ID            2
+#define RTE_I2C4_SCL_PORT_ID            0
 #if    (RTE_I2C4_SCL_PORT_ID == 0)
 #define RTE_I2C4_SCL_PORT               GPIOD
 #define RTE_I2C4_SCL_BIT                12

@@ -6,7 +6,6 @@
  * Purpose: HTTP Server CGI Module
  * Rev.:    V6.0.0
  *----------------------------------------------------------------------------*/
-
 #include <stdio.h>
 #include <string.h>
 #include "cmsis_os2.h"                  // ::CMSIS:RTOS2
@@ -22,6 +21,8 @@
 #pragma  clang diagnostic ignored "-Wformat-nonliteral"
 #endif
 
+#include "sensor.h"
+
 // http_server.c
 extern uint16_t AD_in (uint32_t ch);
 extern uint8_t  get_button (void);
@@ -32,7 +33,6 @@ extern char lcd_text[2][20+1];
 extern osThreadId_t TID_Display;
 
 // Local variables.
-static uint8_t P2;
 static uint8_t ip_addr[NET_ADDR_IP6_LEN];
 static char    ip_string[40];
 
@@ -105,7 +105,7 @@ void netCGI_ProcessQuery (const char *qstr) {
 //            - 4 = any XML encoded POST data (single or last stream).
 //            - 5 = the same as 4, but with more XML data to follow.
 void netCGI_ProcessData (uint8_t code, const char *data, uint32_t len) {
-  char var[40],passw[12];
+  char var[40];
 
   if (code != 0 || len == 0) {
     // Ignore all other codes
@@ -120,13 +120,7 @@ void netCGI_ProcessData (uint8_t code, const char *data, uint32_t len) {
 
 // Generate dynamic web data from a script line.
 uint32_t netCGI_Script (const char *env, char *buf, uint32_t buflen, uint32_t *pcgi) {
-  int32_t socket;
-  netTCP_State state;
-  NET_ADDR r_client;
-  const char *lang;
   uint32_t len = 0U;
-  uint8_t id;
-  static uint32_t adv;
   netIF_Option opt = netIF_OptionMAC_Address;
   int16_t      typ = 0;
 
@@ -186,13 +180,13 @@ uint32_t netCGI_Script (const char *env, char *buf, uint32_t buflen, uint32_t *p
 			
     case 'x':
       // AD Input from 'ad.cgx'
-      adv = AD_in (0);
-      len = (uint32_t)sprintf (buf, &env[1], adv);
+			len = (uint32_t)sprintf (buf, "%s", get_fanstate(TC74_read(), 25));
       break;
 
     case 'y':
       // set wanted temperature from 'wanted-temp.cgi'
-      len = (uint32_t)sprintf (buf, &env[1], get_temp());
+			display_data();
+      len = (uint32_t)sprintf (buf, &env[1], TC74_read());
       break;
 		
 		case 'z':

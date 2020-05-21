@@ -58,6 +58,8 @@
 #define RTE_DEVICE_HAL_DMA
 /*  Keil::Device:STM32Cube HAL:GPIO:1.2.7 */
 #define RTE_DEVICE_HAL_GPIO
+/*  Keil::Device:STM32Cube HAL:I2C:1.2.7 */
+#define RTE_DEVICE_HAL_I2C
 /*  Keil::Device:STM32Cube HAL:LTDC:1.2.7 */
 #define RTE_DEVICE_HAL_LTDC
 /*  Keil::Device:STM32Cube HAL:PWR:1.2.7 */
