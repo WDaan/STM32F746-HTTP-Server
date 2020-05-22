@@ -148,18 +148,6 @@ static __NO_RETURN void BlinkLed (void *arg) {
   uint32_t cnt = 0U;
 
   (void)arg;
-
-  LEDrun = true;
-  while(1) {
-    /* Every 100 ms */
-    if (LEDrun == true) {
-      LED_SetOut (led_val[cnt]);
-      if (++cnt >= sizeof(led_val)) {
-        cnt = 0U;
-      }
-    }
-    osDelay (100);
-  }
 }
 
 /*----------------------------------------------------------------------------

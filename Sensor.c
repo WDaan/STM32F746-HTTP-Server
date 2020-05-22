@@ -6,7 +6,8 @@
 #include "Driver_I2C.h"
 #include "Sensor.h"
 #include "Board_GLCD.h"                 // ::Board Support:Graphic LCD
-
+#include "stm32f7xx_hal.h"
+#include "Board_LED.h"
 
 #define TEMP_I2C_ADDR    0x48            /* 7-bit I2C address                  */
 
@@ -45,7 +46,11 @@ void TC74_Initialize (){
 
 /* get fanstate */
 uint8_t * get_fanstate(uint8_t currTemp){
-	if(currTemp > wanted_temperature) return "ON";
+	if(currTemp > wanted_temperature){
+			LED_On(0);
+		return "ON";
+	}
+		LED_Off(0);
 	return "OFF";
 }
 
