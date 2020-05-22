@@ -59,7 +59,7 @@ void display_data(void){
 	  uint32_t x = 5;
 	 /* Display user text lines */
 		uint8_t temp = TC74_read();
-		sprintf (buf, "Fan status: %s", get_fanstate(temp));
+		sprintf (buf, "Fan status: %s  ", get_fanstate(temp));
     GLCD_DrawString (x*16U, 7U*24U, buf);
 		
 		
