@@ -14,6 +14,8 @@
 extern ARM_DRIVER_I2C            Driver_I2C1;
 static ARM_DRIVER_I2C *I2Cdrv = &Driver_I2C1;
 
+uint8_t wanted_temperature = 20;
+
 void I2C_SignalEvent(uint32_t event){
 	
 }
@@ -42,8 +44,8 @@ void TC74_Initialize (){
 }
 
 /* get fanstate */
-uint8_t * get_fanstate(uint8_t currTemp, uint8_t wTemp){
-	if(currTemp > wTemp) return "ON";
+uint8_t * get_fanstate(uint8_t currTemp){
+	if(currTemp > wanted_temperature) return "ON";
 	return "OFF";
 }
 
@@ -52,7 +54,7 @@ void display_data(void){
 	  uint32_t x = 5;
 	 /* Display user text lines */
 		uint8_t temp = TC74_read();
-		sprintf (buf, "Fan status: %s", get_fanstate(temp, 25));
+		sprintf (buf, "Fan status: %s", get_fanstate(temp));
     GLCD_DrawString (x*16U, 7U*24U, buf);
 		
 		

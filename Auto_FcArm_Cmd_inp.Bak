@@ -1,6 +1,6 @@
 vives-logo.png,
 index.cgi,
 script.js,
-wanted-temp.cgi,
-temp.cgi 
+temp.cgi,
+fan.cgi 
 TO Web.c RTE NOPRINT ROOT(Web)

@@ -433,14 +433,14 @@
               <FilePath>.\Web\script.js</FilePath>
             </File>
             <File>
-              <FileName>wanted-temp.cgi</FileName>
-              <FileType>9</FileType>
-              <FilePath>.\Web\wanted-temp.cgi</FilePath>
-            </File>
-            <File>
               <FileName>temp.cgi</FileName>
               <FileType>9</FileType>
               <FilePath>.\Web\temp.cgi</FilePath>
+            </File>
+            <File>
+              <FileName>fan.cgi</FileName>
+              <FileType>9</FileType>
+              <FilePath>.\Web\fan.cgi</FilePath>
             </File>
           </Files>
         </Group>
@@ -901,14 +901,14 @@
               <FilePath>.\Web\script.js</FilePath>
             </File>
             <File>
-              <FileName>wanted-temp.cgi</FileName>
-              <FileType>9</FileType>
-              <FilePath>.\Web\wanted-temp.cgi</FilePath>
-            </File>
-            <File>
               <FileName>temp.cgi</FileName>
               <FileType>9</FileType>
               <FilePath>.\Web\temp.cgi</FilePath>
+            </File>
+            <File>
+              <FileName>fan.cgi</FileName>
+              <FileType>9</FileType>
+              <FilePath>.\Web\fan.cgi</FilePath>
             </File>
           </Files>
         </Group>

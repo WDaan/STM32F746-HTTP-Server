@@ -45,9 +45,9 @@ t                   <div class="mx-auto" style="max-width: 200px; margin-top: 50
 t                     <form action="index.cgi" method="POST" name="wantedTemperature">
 t                       <div class="form-group">
 t                         <label for="wantedTemperature">Gewenste temperatuur</label>
-t                         <input type="number" min="10" max="35" class="form-control" id="WantedTemperature">
+c f <input type=number name=wtemp min=10 max=35 value="%d" class="form-control">
 t                       </div>
-t                       <button type="submit" class="btn btn-primary OnClick="submit();">Submit</button>
+t                       <button value="Send" type="submit" class="btn btn-primary OnClick="submit();">Submit</button>
 t                     </form>
 t                   </div>
 t                 </div>

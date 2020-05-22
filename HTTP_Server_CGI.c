@@ -7,6 +7,7 @@
  * Rev.:    V6.0.0
  *----------------------------------------------------------------------------*/
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "cmsis_os2.h"                  // ::CMSIS:RTOS2
 #include "rl_net.h"                     // Keil.MDK-Pro::Network:CORE
@@ -27,6 +28,7 @@
 extern uint16_t AD_in (uint32_t ch);
 extern uint8_t  get_button (void);
 extern uint8_t  get_temp (void);
+extern uint8_t wanted_temperature;
 
 extern bool LEDrun;
 extern char lcd_text[2][20+1];
@@ -111,11 +113,14 @@ void netCGI_ProcessData (uint8_t code, const char *data, uint32_t len) {
     // Ignore all other codes
     return;
   }
-	
-	  // Parse all parameters
+	do {
+    // Parse all parameters
     data = netCGI_GetEnvVar (data, var, sizeof (var));
-		//GLCD_DrawString (5*16U, 9U*24U, data);
-	
+		
+				if (strncmp (var, "wtemp=", 6) == 0) {
+						wanted_temperature = atoi(var+6);
+				}
+		} while (data);
 }
 
 // Generate dynamic web data from a script line.
@@ -125,62 +130,14 @@ uint32_t netCGI_Script (const char *env, char *buf, uint32_t buflen, uint32_t *p
   int16_t      typ = 0;
 
   switch (env[0]) {
-    // Analyze a 'c' script line starting position 2
-    case 'a' :
-      // Network parameters from 'network.cgi'
-      switch (env[3]) {
-        case '4': typ = NET_ADDR_IP4; break;
-        case '6': typ = NET_ADDR_IP6; break;
-
-        default: return (0);
-      }
-      
-      switch (env[2]) {
-        case 'l':
-          // Link-local address
-          if (env[3] == '4') { return (0);                             }
-          else               { opt = netIF_OptionIP6_LinkLocalAddress; }
-          break;
-
-        case 'i':
-          // Write local IP address (IPv4 or IPv6)
-          if (env[3] == '4') { opt = netIF_OptionIP4_Address;       }
-          else               { opt = netIF_OptionIP6_StaticAddress; }
-          break;
-
-        case 'm':
-          // Write local network mask
-          if (env[3] == '4') { opt = netIF_OptionIP4_SubnetMask; }
-          else               { return (0);                       }
-          break;
-
-        case 'g':
-          // Write default gateway IP address
-          if (env[3] == '4') { opt = netIF_OptionIP4_DefaultGateway; }
-          else               { opt = netIF_OptionIP6_DefaultGateway; }
-          break;
-
-        case 'p':
-          // Write primary DNS server IP address
-          if (env[3] == '4') { opt = netIF_OptionIP4_PrimaryDNS; }
-          else               { opt = netIF_OptionIP6_PrimaryDNS; }
-          break;
-
-        case 's':
-          // Write secondary DNS server IP address
-          if (env[3] == '4') { opt = netIF_OptionIP4_SecondaryDNS; }
-          else               { opt = netIF_OptionIP6_SecondaryDNS; }
-          break;
-      }
-
-      netIF_GetOption (NET_IF_CLASS_ETH, opt, ip_addr, sizeof(ip_addr));
-      netIP_ntoa (typ, ip_addr, ip_string, sizeof(ip_string));
-      len = (uint32_t)sprintf (buf, &env[5], ip_string);
+		case 'f':
+				// set wanted temperature in input field from 'index.cgi'
+				len = (uint32_t)sprintf (buf, &env[2], wanted_temperature);
       break;
 			
     case 'x':
-      // AD Input from 'ad.cgx'
-			len = (uint32_t)sprintf (buf, "%s", get_fanstate(TC74_read(), 25));
+      // get fan state from 'fan.cgi'
+			len = (uint32_t)sprintf (buf, "%s", get_fanstate(TC74_read()));
       break;
 
     case 'y':

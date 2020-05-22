@@ -8,7 +8,7 @@ window.setInterval(
 							document.getElementById('temp').innerHTML = res;
 					});
 					
-				fetch("wanted-temp.cgi")
+				fetch("fan.cgi")
 					.then((res) => res.text())
 					.then((res) => {
 							console.log(res);
