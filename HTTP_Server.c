@@ -133,9 +133,7 @@ static __NO_RETURN void Display (void *arg) {
     sprintf (buf, "IP4:%-16s",ip_ascii);
     GLCD_DrawString (x*16U, 2U*24U, buf);
 
-	
 		display_data();
-		
   }
 }
 

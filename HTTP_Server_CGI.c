@@ -141,14 +141,9 @@ uint32_t netCGI_Script (const char *env, char *buf, uint32_t buflen, uint32_t *p
       break;
 
     case 'y':
-      // set wanted temperature from 'wanted-temp.cgi'
+      // get current temperature from 'temp.cgi'
 			display_data();
       len = (uint32_t)sprintf (buf, &env[1], TC74_read());
-      break;
-		
-		case 'z':
-			// read temperature from 'temp.cgi'
-			len = (uint32_t)sprintf (buf, &env[1],get_button() ? "checked" : "");
       break;
   }
   return (len);

@@ -17,10 +17,6 @@ static ARM_DRIVER_I2C *I2Cdrv = &Driver_I2C1;
 
 uint8_t wanted_temperature = 20;
 
-void I2C_SignalEvent(uint32_t event){
-	
-}
-
 uint8_t TC74_read () {
   uint8_t data;
 	uint8_t val;
